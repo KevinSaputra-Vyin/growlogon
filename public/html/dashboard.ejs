@@ -28,6 +28,12 @@
             justify-content: center;
             align-items: center;
             padding: 3px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .login-container {
             display: flex;
@@ -39,6 +45,19 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, .08);
             overflow: hidden;
             flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease-in-out 0.2s forwards;
+        }
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .brand-side {
             flex: 1;
@@ -80,10 +99,18 @@
             font-weight: 700;
             margin-bottom: 12px;
             z-index: 2;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.05);
         }
         .logo-icon {
             font-size: 18px;
             color: var(--accent);
+            transition: transform 0.3s ease;
+        }
+        .logo:hover .logo-icon {
+            transform: rotate(15deg);
         }
         .tagline {
             font-size: 10px;
@@ -91,6 +118,11 @@
             margin-bottom: 12px;
             opacity: .9;
             z-index: 2;
+            transition: all 0.3s ease;
+        }
+        .tagline:hover {
+            opacity: 1;
+            transform: translateX(5px);
         }
         .features {
             z-index: 2;
@@ -101,6 +133,13 @@
             gap: 6px;
             margin-bottom: 10px;
             font-size: 10px;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
         .feature-icon {
             width: 20px;
@@ -112,6 +151,11 @@
             justify-content: center;
             font-size: 10px;
             color: #fff;
+            transition: all 0.3s ease;
+        }
+        .feature:hover .feature-icon {
+            background: rgba(255, 255, 255, .25);
+            transform: rotate(10deg);
         }
         .form-side {
             flex: 1;
@@ -144,14 +188,27 @@
             font-weight: 600;
             color: var(--dark);
             margin-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+        .form-title:hover {
+            color: var(--primary);
+            transform: translateX(3px);
         }
         .form-subtitle {
             font-size: 9px;
             color: #666;
+            transition: all 0.3s ease;
+        }
+        .form-subtitle:hover {
+            color: var(--dark);
         }
         .input-group {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             position: relative;
+            transition: all 0.3s ease;
+        }
+        .input-group:hover {
+            transform: translateY(-2px);
         }
         .input-label {
             display: block;
@@ -159,6 +216,10 @@
             font-size: 10px;
             font-weight: 500;
             color: var(--dark);
+            transition: all 0.3s ease;
+        }
+        .input-group:hover .input-label {
+            color: var(--primary);
         }
         .input-field {
             width: 100%;
@@ -180,6 +241,11 @@
             top: 25px;
             color: var(--primary);
             font-size: 11px;
+            transition: all 0.3s ease;
+        }
+        .input-group:hover .input-icon {
+            transform: scale(1.2);
+            color: var(--secondary);
         }
         .btn {
             width: 100%;
@@ -188,7 +254,7 @@
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
-            transition: all .2s;
+            transition: all .3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -198,36 +264,51 @@
         .btn-primary {
             background: var(--primary);
             color: #fff;
-            margin-bottom: 8px;
+            margin: 15px 0 8px 0;
         }
         .btn-primary:hover {
             background: var(--secondary);
-            transform: translateY(-1px);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .btn-secondary {
             background: var(--success);
             color: #fff;
+            margin-top: 8px;
         }
         .btn-secondary:hover {
             background: #00b374;
-            transform: translateY(-1px);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .footer {
-            margin-top: 12px;
+            margin-top: 20px;
             text-align: center;
             font-size: 8px;
             color: #999;
+            transition: all 0.3s ease;
+        }
+        .footer:hover {
+            transform: scale(1.02);
         }
         .footer a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .footer a:hover {
+            background: rgba(74, 107, 255, 0.1);
+            text-decoration: underline;
         }
         .error-message {
             color: var(--error);
             font-size: 10px;
             margin-bottom: 10px;
             display: none;
+            transition: all 0.3s ease;
         }
         .password-wrapper {
             position: relative;
@@ -239,6 +320,11 @@
             cursor: pointer;
             color: var(--primary);
             font-size: 11px;
+            transition: all 0.3s ease;
+        }
+        .toggle-password:hover {
+            color: var(--secondary);
+            transform: scale(1.2);
         }
         @media (max-width: 500px) {
             .login-container {
@@ -308,20 +394,20 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label">Password</label>
-                        <i class="fas fa-lock"></i>
-                        <div class="password-wrapper">
-                            <input type="password" id="loginPassword" name="password" class="input-field" placeholder="Your password" required>
-                            <span class="toggle-password" id="toggleLogPassword">
-                                <i class="fas fa-eye"></i>
-                            </span>
-                        </div>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="loginPassword" name="password" class="input-field" placeholder="Your Password" required>
+                        <span class="toggle-password" id="toggleLogPassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
                     </div>
-                    <button type="button" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i> Create Account
-                    </button>
                     <button type="submit" class="btn btn-secondary" id="loginButton">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </button>
+                    <a href="/player/growid/register">
+                        <button type="button" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                    </a>
                 </form>
                 <div class="footer">
                     Powered by GrowByte • <a href="https://GrowByte.my.id"><i class="fas fa-question-circle"></i> Help</a>
