@@ -93,7 +93,7 @@ app.all('/player/growid/register/validate', (req, res) => {
     // Generate token (same format as login)
     const _token = Date.now().toString(); // Simple token generation
     const token = Buffer.from(
-        `_token=${_token}&growId=${growId}&password=${password}&email=${email}`,
+        `_token=${_token}&register_growId=${growId}&register_password=${password}&register_email=${email}`,
     ).toString('base64');
 
     // Success response (matches login format)
