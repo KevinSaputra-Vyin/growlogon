@@ -54,56 +54,6 @@ app.all('/player/growid/login/validate', (req, res) => {
     );
 });
 
-// Add this right before the '/player/*' route handler
-
-app.all('/player/growid/register/validate', (req, res) => {
-    const { growId, password, verifyPassword, email } = req.body;
-    
-    // Simple validation
-    if (!growId || !password || !verifyPassword || !email) {
-        return res.send(
-            `{"status":"error","message":"All fields are required"}`
-        );
-    }
-
-    if (growId.length < 8) {
-        return res.send(
-            `{"status":"error","message":"GrowID must be at least 8 characters"}`
-        );
-    }
-
-    if (password.length < 8) {
-        return res.send(
-            `{"status":"error","message":"Password must be at least 8 characters"}`
-        );
-    }
-
-    if (password !== verifyPassword) {
-        return res.send(
-            `{"status":"error","message":"Passwords do not match"}`
-        );
-    }
-
-    if (!email.includes('@') || !email.includes('.')) {
-        return res.send(
-            `{"status":"error","message":"Invalid email address"}`
-        );
-    }
-
-    // Generate token (same format as login)
-    const _token = Date.now().toString(); // Simple token generation
-    const token = Buffer.from(
-        `_token=${_token}&register_growId=${growId}&register_password=${password}&register_email=${email}`,
-    ).toString('base64');
-
-    // Success response (matches login format)
-    res.send(
-        `{"status":"success","message":"Account Created.","token":"${token}","url":"","accountType":"growtopia"}`
-    );
-});
-
-// Keep all your existing routes below...
-
 app.all('/player/*', function (req, res) {
     res.status(301).redirect('https://api.yoruakio.tech/player/' + req.path.slice(8));
 });
@@ -115,3 +65,4 @@ app.get('/', function (req, res) {
 app.listen(5000, function () {
     console.log('Listening on port 5000');
 });
+    
