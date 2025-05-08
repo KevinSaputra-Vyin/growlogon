@@ -3,85 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growtopia - Dashboard</title>
+    <title>Growtopia - Sign In</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a2a3a 0%, #2c5364 100%);
+            font-family: 'Inter', sans-serif;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        .input-field {
+            background: rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #00c6ff;
+            box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 198, 255, 0.3);
+        }
+        .toggle-form {
+            color: #00c6ff;
+            transition: all 0.2s ease;
+        }
+        .toggle-form:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body class="flex flex-col items-center justify-center h-screen bg-[#e0f7fa]">
-    <div class="fixed inset-0 flex items-center justify-center">
-        <div class="relative bg-[#2b4d6d] border-4 border-[#87b8cc] shadow-lg p-6 w-80 rounded-lg">
-            <p class="text-white text-center font-bold text-2xl">Login</p>
-            <div id="errorDiv" class="hidden flex flex-col mt-2 text-xs text-red-700 font-bold px-[5px] bg-[#2b4d6d] rounded">
-                <a id="errorMessage"></a>
+<body class="min-h-screen flex items-center justify-center text-gray-100 p-4">
+    <div class="form-container rounded-xl overflow-hidden w-full max-w-md">
+        <!-- Login Form -->
+        <div id="loginForm" class="p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Welcome Back</h2>
+                <p class="opacity-80">Sign in to continue your adventure</p>
             </div>
-            <form 
-            method="post"
-            action="/player/growid/login/validate"
-            accept-charset="UTF-8"
-            id="loginForm" class="mt-3">
-                <div class="mb-1">
-                    <input name="type" value="log" type="hidden" />
-                    <input name="_token" value="<%= JSON.stringify(data) %>" type="hidden" />
-                    <label for="loginGrowId" class="block text-white text-xs">GrowID</label>
-                    <div class="flex items-center border-2 border-[#81d4fa] rounded bg-[#2b4d6d] px-1 py-1">
-                        <i class="fas fa-user text-white mr-1 text-xs"></i>
-                        <input type="text" name="growId" id="loginGrowId" class="w-full bg-[#2b4d6d] text-white text-xs placeholder-white focus:outline-none" placeholder="Enter your growid">
+            
+            <div id="errorDiv" class="hidden bg-red-500/20 text-red-300 text-sm p-3 rounded mb-4"></div>
+            
+            <form method="post" action="/player/growid/login/validate" class="space-y-5">
+                <input type="hidden" name="_token" value="">
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">GrowID</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-blue-400"></i>
+                        </div>
+                        <input type="text" name="growId" id="loginGrowId" 
+                               class="input-field w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none" 
+                               placeholder="YourGrowID">
                     </div>
                 </div>
-                <div class="mb-1">
-                    <label for="loginPassword" class="block text-white text-xs">Password</label>
-                    <div class="flex items-center border-2 border-[#81d4fa] rounded bg-[#2b4d6d] px-1 py-1">
-                        <i class="fas fa-lock text-white mr-1 text-xs"></i>
-                        <input type="password" name="password" id="loginPassword" class="w-full bg-[#2b4d6d] text-white text-xs placeholder-white focus:outline-none" placeholder="Enter your password">
-                        <button type="button" id="toggleLogPassword" class="text-white ml-2 focus:outline-none text-xs">
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-blue-400"></i>
+                        </div>
+                        <input type="password" name="password" id="loginPassword" 
+                               class="input-field w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none" 
+                               placeholder="••••••••">
+                        <button type="button" id="toggleLogPassword" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-blue-400 hover:text-blue-300">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
                 </div>
-                <div class="flex justify-end items-center">
-                    <button id="loginButton" class="px-2 py-1 rounded bg-[#00b8ff] text-white text-xs hover:bg-[#06a4dd] transition duration-300 ease-in-out transform hover:scale-105">Login</button>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" 
+                               class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <label for="remember-me" class="ml-2 block text-sm">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm text-blue-400 hover:underline">Forgot password?</a>
                 </div>
+                
+                <button type="submit" class="btn-primary w-full py-3 px-4 rounded-lg font-medium">
+                    Sign In <i class="fas fa-arrow-right ml-1"></i>
+                </button>
             </form>
+            
+            <div class="mt-6 text-center text-sm">
+                Don't have an account? 
+                <button id="showRegisterBtn" class="toggle-form font-medium">Register here</button>
+            </div>
+        </div>
+        
+        <!-- Register Form -->
+        <div id="registerForm" class="p-8 hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Create Account</h2>
+                <p class="opacity-80">Start your Growtopia journey</p>
+            </div>
+            
+            <div id="registerErrorDiv" class="hidden bg-red-500/20 text-red-300 text-sm p-3 rounded mb-4"></div>
+            
+            <form method="post" action="/player/growid/register/validate" class="space-y-5">
+                <input type="hidden" name="_token" value="">
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">GrowID</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-blue-400"></i>
+                        </div>
+                        <input type="text" name="growId" id="registerGrowId" 
+                               class="input-field w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none" 
+                               placeholder="Choose your ID (min 8 chars)">
+                    </div>
+                    <p id="growIdError" class="text-red-400 text-xs mt-1 hidden">Must be at least 8 characters</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-blue-400"></i>
+                        </div>
+                        <input type="password" name="password" id="registerPassword" 
+                               class="input-field w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none" 
+                               placeholder="•••••••• (min 8 chars)">
+                        <button type="button" id="toggleRegPassword" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-blue-400 hover:text-blue-300">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <p id="passwordError" class="text-red-400 text-xs mt-1 hidden">Must be at least 8 characters</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Confirm Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-blue-400"></i>
+                        </div>
+                        <input type="password" name="verifyPassword" id="verifyPassword" 
+                               class="input-field w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none" 
+                               placeholder="••••••••">
+                        <button type="button" id="toggleVerifyPassword" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-blue-400 hover:text-blue-300">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <p id="verifyError" class="text-red-400 text-xs mt-1 hidden">Passwords don't match</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-blue-400"></i>
+                        </div>
+                        <input type="email" name="email" id="registerEmail" 
+                               class="input-field w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none" 
+                               placeholder="your@email.com">
+                    </div>
+                    <p id="emailError" class="text-red-400 text-xs mt-1 hidden">Please enter a valid email</p>
+                </div>
+                
+                <button type="submit" class="btn-primary w-full py-3 px-4 rounded-lg font-medium">
+                    Register <i class="fas fa-user-plus ml-1"></i>
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center text-sm">
+                Already have an account? 
+                <button id="showLoginBtn" class="toggle-form font-medium">Sign in</button>
+            </div>
         </div>
     </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle between forms
+            const showRegisterBtn = document.getElementById('showRegisterBtn');
+            const showLoginBtn = document.getElementById('showLoginBtn');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            
+            showRegisterBtn.addEventListener('click', function() {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                document.getElementById('errorDiv').classList.add('hidden');
+            });
+            
+            showLoginBtn.addEventListener('click', function() {
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                document.getElementById('registerErrorDiv').classList.add('hidden');
+            });
+            
+            // Password toggles
+            const setupToggle = (btnId, fieldId) => {
+                const btn = document.getElementById(btnId);
+                const field = document.getElementById(fieldId);
+                
+                btn.addEventListener('click', () => {
+                    const type = field.getAttribute('type') === 'password' ? 'text' : 'password';
+                    field.setAttribute('type', type);
+                    btn.innerHTML = `<i class="fas fa-eye${type === 'password' ? '' : '-slash'}"></i>`;
+                });
+            };
+            
+            setupToggle('toggleLogPassword', 'loginPassword');
+            setupToggle('toggleRegPassword', 'registerPassword');
+            setupToggle('toggleVerifyPassword', 'verifyPassword');
+            
+            // Form validation
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                const growId = document.getElementById('loginGrowId').value.trim();
+                const password = document.getElementById('loginPassword').value.trim();
+                const errorDiv = document.getElementById('errorDiv');
+                
+                if (!growId || !password) {
+                    e.preventDefault();
+                    errorDiv.textContent = 'Please fill in all fields';
+                    errorDiv.classList.remove('hidden');
+                } else if (growId.length < 4 || password.length < 4) {
+                    e.preventDefault();
+                    errorDiv.textContent = 'Must be at least 4 characters';
+                    errorDiv.classList.remove('hidden');
+                }
+            });
+            
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                const growId = document.getElementById('registerGrowId').value.trim();
+                const password = document.getElementById('registerPassword').value.trim();
+                const verify = document.getElementById('verifyPassword').value.trim();
+                const email = document.getElementById('registerEmail').value.trim();
+                const errorDiv = document.getElementById('registerErrorDiv');
+                
+                // Reset errors
+                document.querySelectorAll('#registerForm p.text-red-400').forEach(el => el.classList.add('hidden'));
+                errorDiv.classList.add('hidden');
+                
+                let isValid = true;
+                
+                if (growId.length < 8) {
+                    document.getElementById('growIdError').classList.remove('hidden');
+                    isValid = false;
+                }
+                if (password.length < 8) {
+                    document.getElementById('passwordError').classList.remove('hidden');
+                    isValid = false;
+                }
+                if (password !== verify) {
+                    document.getElementById('verifyError').classList.remove('hidden');
+                    isValid = false;
+                }
+                if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    document.getElementById('emailError').classList.remove('hidden');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    errorDiv.textContent = 'Please fix the errors above';
+                    errorDiv.classList.remove('hidden');
+                }
+            });
+            
+            // Remember GrowID
             if (localStorage.getItem('growId')) {
                 document.getElementById('loginGrowId').value = localStorage.getItem('growId');
-            }
-
-            const loginGrowId = document.getElementById('loginGrowId').value
-            const loginPassword = document.getElementById('loginPassword').value
-        });
-        document.getElementById('loginButton').addEventListener('click', function (event) {
-            event.preventDefault();
-
-            const loginForm = document.getElementById('loginForm');
-            const uName = document.getElementById('loginGrowId').value;
-            const uPass = document.getElementById('loginPassword').value;
-
-            if (!uName || !uPass) {
-                document.getElementById('errorDiv').classList.remove('hidden');
-                document.getElementById('errorMessage').innerHTML = 'Username or Password is empty';
-                return;
-            } else if (uName.length < 4 || uPass.length < 4) {
-                document.getElementById('errorDiv').classList.remove('hidden');
-                document.getElementById('errorMessage').innerHTML = 'Username or Password must be at least 4 characters long';
-                return;
-            } else {
-                loginForm.submit();
-                localStorage.setItem('growId', document.getElementById('loginGrowId').value);
-            }
-        })
-        document.getElementById('toggleLogPassword').addEventListener('click', function () {
-            const LpasswordField = document.getElementById('loginPassword')
-            const LpasswordFieldType = LpasswordField.getAttribute('type');
-            if (LpasswordFieldType === 'password') {
-                LpasswordField.setAttribute('type', 'text');
-                this.innerHTML = '<i class="fas fa-eye-slash"></i>';
-            } else {
-                LpasswordField.setAttribute('type', 'password');
-                this.innerHTML = '<i class="fas fa-eye"></i>';
+                document.getElementById('remember-me').checked = true;
             }
         });
     </script>
