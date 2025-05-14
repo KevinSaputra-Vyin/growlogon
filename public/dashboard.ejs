@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Growtopia Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #3a56d4;
+            --accent: #00c8ff;
+            --dark: #1a1a2e;
+            --light: #f8f9ff;
+            --success: #00c781;
+            --error: #ff3860;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        body {
+            background: transparent;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .login-container {
+            display: flex;
+            width: 100%;
+            max-width: 550px;
+            min-height: 300px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, .08);
+            overflow: hidden;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease-in-out 0.2s forwards;
+        }
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .brand-side {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .brand-side::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, .1);
+            border-radius: 50%;
+        }
+        .brand-side::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            right: -10px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, .05);
+            border-radius: 50%;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        .logo-icon {
+            font-size: 18px;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+        }
+        .logo:hover .logo-icon {
+            transform: rotate(15deg);
+        }
+        .tagline {
+            font-size: 10px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            opacity: .9;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        .tagline:hover {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+        .features {
+            z-index: 2;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, .15);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .feature:hover .feature-icon {
+            background: rgba(255, 255, 255, .25);
+            transform: rotate(10deg);
+        }
+        .form-side {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .form-container {
+            max-width: 220px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .game-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            white-space: nowrap;
+            margin-right: 6px;
+        }
+        .form-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+        .form-title:hover {
+            color: var(--primary);
+            transform: translateX(3px);
+        }
+        .form-subtitle {
+            font-size: 9px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        .form-subtitle:hover {
+            color: var(--dark);
+        }
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .input-group:hover {
+            transform: translateY(-2px);
+        }
+        .input-label {
+            display: block;
+            margin-bottom: 3px;
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+        .input-group:hover .input-label {
+            color: var(--primary);
+        }
+        .input-field {
+            width: 100%;
+            padding: 7px 10px 7px 28px;
+            border: 1px solid #e0e3ff;
+            border-radius: 5px;
+            font-size: 11px;
+            background: var(--light);
+            transition: all .2s;
+        }
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(74, 107, 255, .1);
+            outline: 0;
+        }
+        .input-icon {
+            position: absolute;
+            left: 8px;
+            top: 25px;
+            color: var(--primary);
+            font-size: 11px;
+            transition: all 0.3s ease;
+        }
+        .input-group:hover .input-icon {
+            transform: scale(1.2);
+            color: var(--secondary);
+        }
+        .btn {
+            width: 100%;
+            padding: 7px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            border: 0;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            margin: 15px 0 8px 0;
+        }
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-secondary {
+            background: var(--success);
+            color: #fff;
+            margin-top: 8px;
+        }
+        .btn-secondary:hover {
+            background: #00b374;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 8px;
+            color: #999;
+            transition: all 0.3s ease;
+        }
+        .footer:hover {
+            transform: scale(1.02);
+        }
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .footer a:hover {
+            background: rgba(74, 107, 255, 0.1);
+            text-decoration: underline;
+        }
+        .error-message {
+            color: var(--error);
+            font-size: 10px;
+            margin-bottom: 10px;
+            display: none;
+            transition: all 0.3s ease;
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 8px;
+            top: 25px;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 11px;
+            transition: all 0.3s ease;
+        }
+        .toggle-password:hover {
+            color: var(--secondary);
+            transform: scale(1.2);
+        }
+        .form-toggle {
+            text-align: center;
+            font-size: 10px;
+            margin-top: 10px;
+            color: var(--dark);
+        }
+        .form-toggle a {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .form-toggle a:hover {
+            text-decoration: underline;
+        }
+        .fade-out {
+            animation: fadeOut 0.3s ease-in-out forwards;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @media (max-width: 500px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 280px;
+            }
+            .brand-side, .form-side {
+                padding: 12px;
+            }
+            .form-container {
+                max-width: 100%;
+            }
+            .form-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            .game-title {
+                margin-bottom: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="brand-side">
+            <div class="logo">
+                <i class="fas fa-gamepad logo-icon"></i>
+                <span>Growtopia</span>
+            </div>
+            <p class="tagline">Join millions of players in this creative sandbox MMO game!</p>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <span>Build anything</span>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <span>Global trading</span>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <span>Exciting events</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-side">
+            <div class="form-container">
+                <div class="form-header">
+                    <div>
+                        <h2 class="form-title" id="formTitle">Welcome Back!</h2>
+                        <p class="form-subtitle" id="formSubtitle">Sign in to continue</p>
+                    </div>
+                </div>
+                <form id="loginForm" action="/player/growid/login/validate" method="post" class="active-form">
+                    <div class="error-message" id="loginErrorMessage"></div>
+                    <div class="input-group">
+                        <label class="input-label">GrowID</label>
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="loginGrowId" name="growId" class="input-field" placeholder="Your GrowID" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="loginPassword" name="password" class="input-field" placeholder="Your Password" required>
+                        <span class="toggle-password" id="toggleLogPassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-secondary" id="loginButton">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <div class="form-toggle">
+                        Don't have an account? <a id="showRegister">Register here</a>
+                    </div>
+                </form>
+
+                <form id="registerForm" action="/player/register/validate" method="post" style="display: none;">
+                    <div class="error-message" id="registerErrorMessage"></div>
+                    <div class="input-group">
+                        <label class="input-label">GrowID</label>
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="registerGrowId" name="register_growid" class="input-field" placeholder="Your GrowID (min 4 characters)" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="registerPassword" name="register_password" class="input-field" placeholder="Your Password (min 8 characters)" required>
+                        <span class="toggle-password" id="toggleRegPassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Verify Password</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="registerVerifyPassword" name="register_verify_password" class="input-field" placeholder="Verify Your Password" required>
+                        <span class="toggle-password" id="toggleRegVerifyPassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Email</label>
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="registerEmail" name="register_email" class="input-field" placeholder="Your Email (Gmail)" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="registerButton">
+                        <i class="fas fa-user-plus"></i> Register
+                    </button>
+                    <div class="form-toggle">
+                        Already have an account? <a id="showLogin">Login here</a>
+                    </div>
+                </form>
+                <div class="footer">
+                    Powered by GrowByte • <a href="https://GrowByte.my.id"><i class="fas fa-question-circle"></i> Help</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Load saved GrowID if exists
+            if (localStorage.getItem('growId')) {
+                document.getElementById('loginGrowId').value = localStorage.getItem('growId');
+            }
+
+            // Toggle between login and register forms
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const showRegister = document.getElementById('showRegister');
+            const showLogin = document.getElementById('showLogin');
+            const formTitle = document.getElementById('formTitle');
+            const formSubtitle = document.getElementById('formSubtitle');
+
+            showRegister.addEventListener('click', function() {
+                loginForm.classList.add('fade-out');
+                setTimeout(() => {
+                    loginForm.style.display = 'none';
+                    loginForm.classList.remove('fade-out');
+                    registerForm.style.display = 'block';
+                    registerForm.classList.add('fade-in');
+                    setTimeout(() => {
+                        registerForm.classList.remove('fade-in');
+                    }, 300);
+                    formTitle.textContent = 'Create Account';
+                    formSubtitle.textContent = 'Join our community today';
+                }, 300);
+            });
+
+            showLogin.addEventListener('click', function() {
+                registerForm.classList.add('fade-out');
+                setTimeout(() => {
+                    registerForm.style.display = 'none';
+                    registerForm.classList.remove('fade-out');
+                    loginForm.style.display = 'block';
+                    loginForm.classList.add('fade-in');
+                    setTimeout(() => {
+                        loginForm.classList.remove('fade-in');
+                    }, 300);
+                    formTitle.textContent = 'Welcome Back!';
+                    formSubtitle.textContent = 'Sign in to continue';
+                }, 300);
+            });
+
+            // Login form validation
+            document.getElementById('loginButton').addEventListener('click', function (event) {
+                event.preventDefault();
+                
+                const errorElement = document.getElementById('loginErrorMessage');
+                const uName = document.getElementById('loginGrowId').value;
+                const uPass = document.getElementById('loginPassword').value;
+
+                // Validation
+                if (!uName || !uPass) {
+                    errorElement.textContent = 'Username or Password is empty';
+                    errorElement.style.display = 'block';
+                    return;
+                } else if (uName.length < 4 || uPass.length < 4) {
+                    errorElement.textContent = 'Username or Password must be at least 4 characters long';
+                    errorElement.style.display = 'block';
+                    return;
+                } else {
+                    errorElement.style.display = 'none';
+                    localStorage.setItem('growId', uName);
+                    document.getElementById('loginForm').submit();
+                }
+            });
+
+            // Register form validation
+            document.getElementById('registerButton').addEventListener('click', function (event) {
+                event.preventDefault();
+                
+                const errorElement = document.getElementById('registerErrorMessage');
+                const growId = document.getElementById('registerGrowId').value;
+                const password = document.getElementById('registerPassword').value;
+                const verifyPassword = document.getElementById('registerVerifyPassword').value;
+                const email = document.getElementById('registerEmail').value;
+
+                // GrowID validation
+                if (!growId || growId.length < 4) {
+                    errorElement.textContent = 'GrowID must be at least 4 characters long';
+                    errorElement.style.display = 'block';
+                    return;
+                } else if (!/^[a-zA-Z0-9]+$/.test(growId)) {
+                    errorElement.textContent = 'GrowID can only contain letters and numbers';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+
+                // Password validation
+                if (!password || password.length < 8) {
+                    errorElement.textContent = 'Password must be at least 8 characters long';
+                    errorElement.style.display = 'block';
+                    return;
+                } else if (password.includes(' ')) {
+                    errorElement.textContent = 'Password cannot contain spaces';
+                    errorElement.style.display = 'block';
+                    return;
+                } else if (password !== verifyPassword) {
+                    errorElement.textContent = 'Passwords do not match';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+
+                // Email validation
+                if (!email) {
+                    errorElement.textContent = 'Email is required';
+                    errorElement.style.display = 'block';
+                    return;
+                } else if (!email.includes('@') || !email.includes('.')) {
+                    errorElement.textContent = 'Please enter a valid email address';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+
+                // If all validations pass
+                errorElement.style.display = 'none';
+                document.getElementById('registerForm').submit();
+            });
+
+            // Toggle password visibility for login form
+            document.getElementById('toggleLogPassword').addEventListener('click', function () {
+                const passwordField = document.getElementById('loginPassword');
+                const icon = this.querySelector('i');
+                
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+
+            // Toggle password visibility for register form
+            document.getElementById('toggleRegPassword').addEventListener('click', function () {
+                const passwordField = document.getElementById('registerPassword');
+                const icon = this.querySelector('i');
+                
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+
+            // Toggle verify password visibility for register form
+            document.getElementById('toggleRegVerifyPassword').addEventListener('click', function () {
+                const passwordField = document.getElementById('registerVerifyPassword');
+                const icon = this.querySelector('i');
+                
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
