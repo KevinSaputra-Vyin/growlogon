@@ -54,6 +54,29 @@ app.all('/player/growid/login/validate', (req, res) => {
     );
 });
 
+app.all('/player/register/validate', (req, res) => {
+    const _token = req.body._token;
+    const growId = req.body.register_growid;
+    const password = req.body.register_password;
+    const verifyPassword = req.body.register_verify_password;
+    const email = req.body.register_email;
+
+    // You might want to add server-side validation here
+    if (password !== verifyPassword) {
+        return res.status(400).send(
+            `{"status":"error","message":"Passwords do not match.","token":"","url":"","accountType":"growtopia"}`
+        );
+    }
+
+    const token = Buffer.from(
+        `_token=${_token}&register_growId=${growId}&register_password=${password}&register_email=${email}`
+    ).toString('base64');
+
+    res.send(
+        `{"status":"success","message":"Account Registered Successfully.","token":"${token}","url":"","accountType":"growtopia"}`
+    );
+});
+
 app.all('/player/*', function (req, res) {
     res.status(301).redirect('https://api.yoruakio.tech/player/' + req.path.slice(8));
 });
